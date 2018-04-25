@@ -12,11 +12,9 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
 
     @IBOutlet weak var tableView: UITableView!
     var juegos:[Juego]=[]
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        hideKeyBoardWhenTap()
         tableView.dataSource=self
         tableView.delegate=self
     }
@@ -42,7 +40,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         cell.imageView?.image = UIImage(data:(juego.imagen!) as Data)
         return cell
     }
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("se ha seleccionado \(juegos[indexPath.row].titulo!)")
+        let juego=juegos[indexPath.row]
+        performSegue(withIdentifier: "juegoSegue", sender: juego)
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let siguienteVC=segue.destination as! JuegoViewController
+        siguienteVC.juego = sender as? Juego
+    }
 
 
 }
